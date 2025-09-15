@@ -1,0 +1,64 @@
+.dt-wrapper { background: #0b0b0b; border-radius: 8px; padding: 8px; }
+.dt-table { width: 100%; border-collapse: collapse; color: #fff; }
+.dt-table th { text-align: left; padding: 12px; border-bottom: 1px solid #222; color: #39ff14; }
+.dt-table td { padding: 10px; border-bottom: 1px solid #1a1a1a; }
+.dt-row:hover { background: rgba(57,255,20,0.03); }
+.dt-pagination { margin-top: 12px; display: flex; gap: 6px; }
+.dt-pagination button { background: transparent; border: 1px solid #333; color: #fff; padding: 6px 8px; border-radius: 6px; cursor: pointer; transition: background .12s, transform .06s; }
+.dt-pagination button:hover:not(.disabled) { transform: translateY(-1px); }
+.dt-pagination button.active { background: #39ff14; color: #000; border-color: #39ff14; }
+.dt-pagination button.disabled { opacity: 0.5; cursor: default; transform: none; }
+.dt-filter { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.dt-filter input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #222; background: #0f0f0f; color: #fff; outline: none; transition: box-shadow .12s, border-color .12s; }
+.dt-filter input:focus { box-shadow: 0 0 0 3px rgba(57,255,20,0.08); border-color: #39ff14; }
+.dt-filter .clear-btn { background: transparent; border: 1px solid #333; color: #fff; padding: 8px 10px; border-radius: 6px; cursor: pointer; }
+
+/* Generic button styles used across pages */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; border: none; background: #222; color: #fff; cursor: pointer; transition: transform .06s, background .12s; }
+.btn:hover { transform: translateY(-1px); }
+.btn:focus { outline: 3px solid rgba(57,255,20,0.12); }
+.btn-primary { background: #39ff14; color: #000; font-weight: 700; }
+.btn-ghost { background: transparent; border: 1px solid #333; }
+.add-btn { padding: 8px 14px; }
+
+/* Empty state */
+.dt-empty { padding: 20px; text-align: center; color: #bbb; }
+
+/* Table responsive tweaks */
+@media (max-width: 800px) {
+	.dt-table th, .dt-table td { padding: 8px; font-size: 0.95rem; }
+}
+
+/* Mobile: make table rows card-like and stack cells vertically for readability */
+@media (max-width: 640px) {
+	.dt-table { border: 0; }
+	.dt-table thead { display: none; }
+	.dt-table tr { display: block; margin-bottom: 12px; background: #070707; border-radius: 8px; padding: 10px; }
+	.dt-table td { display: block; padding: 6px 0; border: 0; }
+	.dt-table td::before { content: attr(data-label); display: inline-block; width: 110px; color: #9bdc9b; font-weight: 600; }
+	.dt-pagination { flex-wrap: wrap; gap: 8px; }
+	.btn { width: 100%; justify-content: center; }
+	.add-btn { width: auto; }
+	.dt-filter { flex-direction: column; align-items: stretch; }
+	.dt-filter input { width: 100%; }
+}
+
+.client-link { color: #39ff14; text-decoration: none; font-weight: 600; }
+.page-title { color: #39ff14; margin: 0; }
+
+/* Form styles */
+.form { display: flex; flex-direction: column; gap: 12px; max-width: 640px; }
+.form-label { font-weight: 600; color: #ddd; }
+.form-input, .form-textarea, .form-select { padding: 10px 12px; border-radius: 8px; border: 1px solid #222; background: #0f0f0f; color: #fff; }
+.form-textarea { min-height: 100px; }
+.form-actions { display: flex; gap: 8px; margin-top: 8px; }
+.muted { color: #aaa; }
+
+/* Make forms full-width on small screens */
+@media (max-width: 640px) {
+	.form { max-width: 100%; }
+	.form-actions { flex-direction: column; }
+}
+
+/* Utility container */
+.container { max-width: 1100px; margin: 0 auto; padding: 16px; }

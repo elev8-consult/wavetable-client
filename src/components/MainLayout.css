@@ -1,0 +1,95 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #000;
+}
+.sidebar {
+  width: 220px;
+  background: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 2rem 1rem 1rem 1rem;
+  border-right: 2px solid #39ff14;
+}
+.sidebar-title {
+  color: #39ff14;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.sidebar nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.sidebar nav a:hover, .sidebar nav a.active {
+  background: #39ff14;
+  color: #000;
+}
+.logout-btn {
+  margin-top: auto;
+  background: #39ff14;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.logout-btn:hover {
+  background: #2cff0a;
+}
+.main-content {
+  flex: 1;
+  padding: 2.5rem 2rem;
+  color: #fff;
+  background: #000;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sidebar nav a.active {
+  background: #39ff14;
+  color: #000;
+}
+
+/* small helper for page headers */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Responsive: collapse sidebar to top navigation on small screens */
+@media (max-width: 900px) {
+  .main-layout { flex-direction: column; }
+  .sidebar { width: 100%; display: flex; flex-direction: row; align-items: center; padding: 0.5rem 1rem; gap: 12px; border-right: 0; border-bottom: 2px solid #39ff14; }
+  .sidebar-title { font-size: 1.4rem; margin-bottom: 0; }
+  .sidebar nav { flex-direction: row; gap: 0.6rem; overflow-x: auto; }
+  .sidebar nav a { padding: 0.4rem 0.6rem; font-size: 0.95rem; }
+  .logout-btn { margin-top: 0; padding: 0.4rem 0.6rem; }
+  .main-content { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .page-header { flex-direction: column; align-items: stretch; gap: 8px; }
+}
