@@ -15,8 +15,6 @@ export default function MainLayout({ children }) {
     ['Equipment', '/equipment'],
     ['Rooms', '/rooms'],
     ['Bookings', '/bookings'],
-    ['Classes', '/classes'],
-    ['Enrollments', '/enrollments'],
     ['Attendance', '/attendance'],
     ['Payments', '/payments'],
     ['Calendar', '/calendar']

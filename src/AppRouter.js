@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-import { useEffect } from 'react';
 import { getMe } from './api/auth';
 import ClientsList from './pages/Clients/ClientsList';
 import ClientCreate from './pages/Clients/ClientCreate';
@@ -23,14 +22,6 @@ import BookingsList from './pages/Bookings/BookingsList';
 import BookingCreate from './pages/Bookings/BookingCreate';
 import BookingEdit from './pages/Bookings/BookingEdit';
 import BookingDetail from './pages/Bookings/BookingDetail';
-import ClassesList from './pages/Classes/ClassesList';
-import ClassCreate from './pages/Classes/ClassCreate';
-import ClassEdit from './pages/Classes/ClassEdit';
-import ClassDetail from './pages/Classes/ClassDetail';
-import EnrollmentsList from './pages/Enrollments/EnrollmentsList';
-import EnrollmentCreate from './pages/Enrollments/EnrollmentCreate';
-import EnrollmentEdit from './pages/Enrollments/EnrollmentEdit';
-import EnrollmentDetail from './pages/Enrollments/EnrollmentDetail';
 import AttendanceList from './pages/Attendance/AttendanceList';
 import AttendanceCreate from './pages/Attendance/AttendanceCreate';
 import AttendanceEdit from './pages/Attendance/AttendanceEdit';
@@ -42,7 +33,7 @@ import PaymentDetail from './pages/Payments/PaymentDetail';
 
 export default function AppRouter() {
   const isAuthenticated = !!localStorage.getItem('token');
-  // Validate token on app start
+
   useEffect(() => {
     if (!isAuthenticated) return;
     getMe().catch(() => {
@@ -50,21 +41,40 @@ export default function AppRouter() {
       window.location.href = '/login';
     });
   }, []);
+
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         } />
+
         <Route path="/clients" element={
           <ProtectedRoute>
             <ClientsList />
           </ProtectedRoute>
         } />
+        <Route path="/clients/create" element={
+          <ProtectedRoute>
+            <ClientCreate />
+          </ProtectedRoute>
+        } />
+        <Route path="/clients/:id/edit" element={
+          <ProtectedRoute>
+            <ClientEdit />
+          </ProtectedRoute>
+        } />
+        <Route path="/clients/:id" element={
+          <ProtectedRoute>
+            <ClientDetail />
+          </ProtectedRoute>
+        } />
+
         <Route path="/equipment" element={
           <ProtectedRoute>
             <EquipmentList />
@@ -85,6 +95,7 @@ export default function AppRouter() {
             <EquipmentDetail />
           </ProtectedRoute>
         } />
+
         <Route path="/rooms" element={
           <ProtectedRoute>
             <RoomsList />
@@ -105,6 +116,7 @@ export default function AppRouter() {
             <RoomDetail />
           </ProtectedRoute>
         } />
+
         <Route path="/bookings" element={
           <ProtectedRoute>
             <BookingsList />
@@ -125,46 +137,7 @@ export default function AppRouter() {
             <BookingDetail />
           </ProtectedRoute>
         } />
-        <Route path="/classes" element={
-          <ProtectedRoute>
-            <ClassesList />
-          </ProtectedRoute>
-        } />
-        <Route path="/classes/create" element={
-          <ProtectedRoute>
-            <ClassCreate />
-          </ProtectedRoute>
-        } />
-        <Route path="/classes/:id/edit" element={
-          <ProtectedRoute>
-            <ClassEdit />
-          </ProtectedRoute>
-        } />
-        <Route path="/classes/:id" element={
-          <ProtectedRoute>
-            <ClassDetail />
-          </ProtectedRoute>
-        } />
-        <Route path="/enrollments" element={
-          <ProtectedRoute>
-            <EnrollmentsList />
-          </ProtectedRoute>
-        } />
-        <Route path="/enrollments/create" element={
-          <ProtectedRoute>
-            <EnrollmentCreate />
-          </ProtectedRoute>
-        } />
-        <Route path="/enrollments/:id/edit" element={
-          <ProtectedRoute>
-            <EnrollmentEdit />
-          </ProtectedRoute>
-        } />
-        <Route path="/enrollments/:id" element={
-          <ProtectedRoute>
-            <EnrollmentDetail />
-          </ProtectedRoute>
-        } />
+
         <Route path="/attendance" element={
           <ProtectedRoute>
             <AttendanceList />
@@ -185,6 +158,7 @@ export default function AppRouter() {
             <AttendanceDetail />
           </ProtectedRoute>
         } />
+
         <Route path="/payments" element={
           <ProtectedRoute>
             <PaymentsList />
@@ -205,28 +179,14 @@ export default function AppRouter() {
             <PaymentDetail />
           </ProtectedRoute>
         } />
-        <Route path="/clients/create" element={
-          <ProtectedRoute>
-            <ClientCreate />
-          </ProtectedRoute>
-        } />
-        <Route path="/clients/:id/edit" element={
-          <ProtectedRoute>
-            <ClientEdit />
-          </ProtectedRoute>
-        } />
-        <Route path="/clients/:id" element={
-          <ProtectedRoute>
-            <ClientDetail />
-          </ProtectedRoute>
-        } />
+
         <Route path="/calendar" element={
           <ProtectedRoute>
             <CalendarPage />
           </ProtectedRoute>
         } />
-        {/* Add more protected routes for other modules here */}
-        <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
+
+        <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} />} />
       </Routes>
     </Router>
   );
