@@ -1,19 +1,7 @@
 import axios from 'axios';
 
-const envBaseUrl = process.env.REACT_APP_API_URL?.trim();
-
-let normalizedBaseUrl = 'http://localhost:5001/api';
-if (envBaseUrl) {
-  // Allow providing either full API base path or just the origin; default to appending /api for the latter.
-  const sanitized = envBaseUrl.replace(/\/$/, '');
-  const hasPathBeyondRoot = /^https?:\/\//i.test(sanitized)
-    ? sanitized.replace(/^https?:\/\/[^/]+/, '').length > 0
-    : sanitized.includes('/');
-  normalizedBaseUrl = hasPathBeyondRoot ? sanitized : `${sanitized}/api`;
-}
-
 const api = axios.create({
-  baseURL: normalizedBaseUrl,
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5001/api',
 });
 
 // Add JWT token to headers if available

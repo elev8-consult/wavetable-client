@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import DataTable from '../../components/DataTable';
 import Pagination from '../../components/Pagination';
 import SearchFilter from '../../components/SearchFilter';
+import { findServiceByCode } from '../../constants/services';
 
 export default function BookingsList() {
   const [items, setItems] = useState([]);
@@ -30,9 +31,18 @@ export default function BookingsList() {
 
   const columns = [
     { key: 'clientId', label: 'Client', render: r => r.clientId ? <Link to={`/clients/${r.clientId._id || r.clientId}`}>{r.clientId.name || r.clientId}</Link> : '-' },
-    { key: 'serviceType', label: 'Service', render: r => r.serviceType },
+    { key: 'service', label: 'Service', render: r => { const def = findServiceByCode(r.serviceCode); return def ? def.name : (r.serviceType || '-'); } },
+    { key: 'price', label: 'Price', render: r => {
+      const full = typeof r.fullPrice === 'number' ? r.fullPrice : (typeof r.totalFee === 'number' ? r.totalFee : null);
+      const discount = typeof r.discountedPrice === 'number' ? r.discountedPrice : null;
+      const currency = r.priceCurrency || 'USD';
+      if (discount !== null) return `${discount} ${currency} (from ${full ?? '-'})`;
+      if (full !== null) return `${full} ${currency}`;
+      return '-';
+    } },
     { key: 'startDate', label: 'Start', render: r => r.startDate ? new Date(r.startDate).toLocaleString() : '-' },
     { key: 'endDate', label: 'End', render: r => r.endDate ? new Date(r.endDate).toLocaleString() : '-' },
+    { key: 'paymentStatus', label: 'Payment', render: r => r.paymentStatus || '-' },
     { key: 'actions', label: 'Actions', render: r => <button onClick={() => navigate(`/bookings/${r._id}/edit`)}>Edit</button> }
   ];
 

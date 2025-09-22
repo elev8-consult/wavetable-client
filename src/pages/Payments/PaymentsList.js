@@ -4,6 +4,7 @@ import { getPayments } from '../../api/payments';
 import DataTable from '../../components/DataTable';
 import Pagination from '../../components/Pagination';
 import SearchFilter from '../../components/SearchFilter';
+import { findServiceByCode } from '../../constants/services';
 
 export default function PaymentsList() {
   const [items, setItems] = useState([]);
@@ -22,15 +23,19 @@ export default function PaymentsList() {
 
   const filtered = items.filter(i => {
     const name = i.clientId?.name || '';
-    return !query || name.toLowerCase().includes(query.toLowerCase());
+    const serviceName = findServiceByCode(i.serviceCode)?.name || '';
+    const haystack = `${name} ${serviceName}`.toLowerCase();
+    return !query || haystack.includes(query.toLowerCase());
   });
   const pageData = filtered.slice((page - 1) * pageSize, page * pageSize);
 
   const columns = [
     { key: 'clientId', label: 'Client', render: r => r.clientId?.name || r.clientId || '-' },
+    { key: 'service', label: 'Service', render: r => { const def = findServiceByCode(r.serviceCode); return def ? def.name : (r.serviceType || '-'); } },
+    { key: 'amount', label: 'Amount', render: r => { const currency = r.priceCurrency || 'USD'; return `${r.amount} ${currency}`; } },
     { key: 'type', label: 'Type' },
-    { key: 'amount', label: 'Amount', render: r => r.amount },
-    { key: 'date', label: 'Date', render: r => r.date ? new Date(r.date).toLocaleDateString() : '-' }
+    { key: 'date', label: 'Date', render: r => r.date ? new Date(r.date).toLocaleDateString() : '-' },
+    { key: 'method', label: 'Method', render: r => r.method || '-' },
   ];
 
   return (

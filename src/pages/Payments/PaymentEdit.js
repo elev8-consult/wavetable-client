@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { getPaymentById, updatePayment } from '../../api/payments';
+import { findServiceByCode } from '../../constants/services';
 import { useParams, useNavigate } from 'react-router-dom';
+
+const DEFAULT_CURRENCY = 'USD';
 
 export default function PaymentEdit() {
   const { id } = useParams();
@@ -22,9 +25,13 @@ export default function PaymentEdit() {
   if (loading) return <MainLayout><div>Loading...</div></MainLayout>;
   if (!item) return <MainLayout><div>Not found</div></MainLayout>;
 
+  const serviceDef = findServiceByCode(item.serviceCode);
+  const priceCurrency = item.priceCurrency || DEFAULT_CURRENCY;
+
   return (
     <MainLayout>
       <h2 style={{ color: '#39ff14' }}>Edit Payment</h2>
+      <div style={{ fontSize: 12, color: '#888' }}>Service: {serviceDef ? serviceDef.name : (item.serviceType || '-')}</div>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <select value={item.type || 'income'} onChange={e => setItem({ ...item, type: e.target.value })}>
           <option value="income">Income</option>
@@ -32,6 +39,7 @@ export default function PaymentEdit() {
         </select>
         <input value={item.amount || ''} onChange={e => setItem({ ...item, amount: e.target.value })} placeholder="Amount" />
         <input value={item.method || ''} onChange={e => setItem({ ...item, method: e.target.value })} placeholder="Method" />
+        <input value={item.priceCurrency || priceCurrency} onChange={e => setItem({ ...item, priceCurrency: e.target.value })} placeholder="Currency" />
         <input value={item.description || ''} onChange={e => setItem({ ...item, description: e.target.value })} placeholder="Description" />
         <input type="date" value={item.date ? item.date.split('T')[0] : ''} onChange={e => setItem({ ...item, date: e.target.value })} />
         <button type="submit">Save</button>
